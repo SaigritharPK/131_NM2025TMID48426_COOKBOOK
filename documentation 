@@ -1,0 +1,88 @@
+VGA Cookbook Project Documentation
+Submitted by: B.Sc. Computer Science Students
+Vysya College
+ 
+1. Introduction
+The VGA Cookbook is a web-based recipe management system developed by B.Sc. Computer Science students of Vysya College.
+It helps users explore different food recipes categorized into North Indian, South Indian, Street Food, Desserts, Vegetarian, Non-Vegetarian, and Popular dishes.
+
+2. Objectives
+●	- Provide an easy-to-use online cookbook for students and food enthusiasts.
+●	- Showcase web development skills using modern frontend tools.
+●	- Allow searching and filtering of recipes.
+●	- Create a responsive web application that works on desktop and mobile.
+●	- Integrate academic learning with a real-world project.
+
+3. Tools & Technologies Used
+●	- HTML5 – Page structure and content
+●	- Tailwind CSS – Styling and responsiveness
+●	- Google Fonts – Custom fonts (Bangers, Inter)
+●	- JavaScript (Vanilla) – Dynamic rendering, filtering, search, and interactivity
+
+4. System Requirements
+Hardware:
+●	- Minimum: Dual Core Processor, 2 GB RAM, 500 MB Storage
+●	- Recommended: i3 Processor or above, 4 GB RAM
+Software:
+●	- OS: Windows / Linux / macOS
+●	- Browser: Chrome, Edge, Firefox (latest)
+●	- Editor: VS Code / Sublime / Notepad++
+
+5. System Design
+Architecture: Client-side web application with HTML, Tailwind CSS, and JavaScript.
+Data stored as JavaScript objects.
+Workflow:
+●	1. Splash screen loads on startup.
+●	2. Main page displays categories and recipes.
+●	3. Search bar filters recipes dynamically.
+●	4. Category buttons refine recipes.
+●	5. “View” button opens details page.
+●	6. Back button returns to main list.
+
+6. Implementation
+Features:
+●	- Splash Screen Animation
+●	- Dynamic Recipe Cards
+●	- Category Filtering
+●	- Search Functionality
+●	- Recipe Detail Page
+●	- Responsive Design
+Code Structure:
+●	- index.html → Structure and layout
+●	- script.js → Logic for rendering, search, filter
+●	- Tailwind CSS → Styling
+
+7. Screenshots
+Suggested screenshots to include in the report:
+●	1. Splash Screen
+●	2. Homepage with Categories
+●	3. Recipe Details Page
+●	4. Search Results
+
+8. Advantages
+●	- Simple, lightweight, and fast
+●	- User-friendly interface
+●	- No backend required
+●	- Responsive design
+
+9. Limitations
+●	- Data stored locally in JS (no database)
+●	- No user login/authentication
+●	- Limited recipes (expandable)
+
+10. Future Enhancements
+●	- Database integration (MySQL/Firebase)
+●	- Add recipe images
+●	- User login to add recipes
+●	- AI-based recipe suggestions
+●	- Export/share recipes
+
+11. Conclusion
+The VGA Cookbook Project demonstrates knowledge of HTML, Tailwind CSS, and JavaScript.
+It successfully provides an interactive recipe platform.
+Future scope includes database integration and personalization.
+
+12. Team & Acknowledgment
+Project by: B.Sc. Computer Science Students, Vysya College
+Special Thanks: Vysya College Computer Science Department
+
