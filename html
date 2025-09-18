@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vysya College Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f7fafc; }
+        .splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f59e0b, #ef4444, #8b5cf6, #3b82f6); background-size: 400% 400%; display: flex; justify-content: center; align-items: center; animation: gradient-animation 15s ease infinite, splash-out 1s forwards 2s; z-index: 9999; }
+        .splash-text { font-family: 'Bangers', cursive; font-size: clamp(2rem, 10vw, 4rem); font-weight: bold; color: white; text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); animation: text-pop 0.8s ease-out; }
+        @keyframes gradient-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes text-pop { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); } }
+        @keyframes splash-out { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.2); visibility: hidden; } }
+        .recipe-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .recipe-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="splash" id="splash-screen"><span class="splash-text">VGA COOKBOOK</span></div>
+
+    <header class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-gray-900 font-['Bangers'] tracking-wide">VGA COOKBOOK</h1>
+            <div class="mt-4 md:mt-0 w-full md:w-auto">
+                <input type="text" id="search-bar" placeholder="Search recipes..." class="w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="md:col-span-3">
+            <div class="mb-8 p-6 bg-white rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold mb-4">Categories</h2>
+                <div class="flex flex-wrap gap-2 justify-center">
+                    <button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-300" data-category="All" data-active="true">All</button>
+                    <button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-300" data-category="Popular">Popular</button>
+                    <button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-300" data-category="Vegetarian">Vegetarian</button>
+                    <button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-300" data-category="Non-Vegetarian">Non-Vegetarian</button>
+                    <button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-300" data-category="Indian">Indian</button>
+                    <button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-300" data-category="South Indian">South Indian</button>
+                    <button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-300" data-category="North Indian">North Indian</button>
+                    <button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-300" data-category="Street Food">Street Food</button>
+                    <button class="filter-btn bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium hover:bg-gray-300" data-category="Desserts">Desserts</button>
+                </div>
+            </div>
+
+            <section id="recipes-list">
+                <h2 class="text-2xl font-semibold mb-6">All Recipes</h2>
+                <div id="recipes-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </section>
+        </div>
+    </main>
+
+    <section id="recipe-details" class="hidden container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <button id="back-btn" class="mb-4 bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300">← Back</button>
+            <h2 id="details-title" class="text-3xl font-bold mb-4 font-['Bangers']"></h2>
+            <h3 class="text-xl font-semibold mb-2">Ingredients:</h3>
+            <ul id="details-ingredients" class="list-disc list-inside mb-4"></ul>
+            <h3 class="text-xl font-semibold mb-2">Instructions:</h3>
+            <p id="details-instructions" class="text-gray-700"></p>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold border-b border-gray-700 pb-2">Categories</h3>
+                <ul class="space-y-2 text-lg text-gray-300">
+                    <li>Popular</li>
+                    <li>Vegetarian</li>
+                    <li>Non-Vegetarian</li>
+                    <li>Indian</li>
+                    <li>South Indian</li>
+                    <li>North Indian</li>
+                    <li>Street Food</li>
+                    <li>Desserts</li>
+                </ul>
+            </div>
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold border-b border-gray-700 pb-2">About Us</h3>
+                <p class="text-gray-300 leading-relaxed">We are students of Vysya College from BSc Computer Science. We created this cookbook website as part of our academics and hope it is useful for everyone.</p>
+            </div>
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold border-b border-gray-700 pb-2">Contact Us</h3>
+                <p class="text-gray-300 leading-relaxed">VGA Cookbook</p>
+            </div>
+        </div>
+        <div class="text-center text-sm text-gray-500 mt-8">&copy; 2024 Vysya College Project. All Rights Reserved.</div>
+    </footer>
+
+    <script>
+        const recipes = [
+            // North Indian
+            { name: "Paneer Butter Masala", category: "North Indian", isPopular: true, ingredients:["Paneer","Butter","Tomatoes","Cream","Spices"], instructions:"Cook paneer in tomato butter gravy and garnish with cream." },
+            { name: "Dal Makhani", category: "North Indian", isPopular: true, ingredients:["Whole black lentils","Kidney beans","Butter","Cream","Spices"], instructions:"Slow cook dal and rajma with spices and finish with butter & cream." },
+            { name: "Rajma Chawal", category: "North Indian", isPopular: true, ingredients:["Rajma","Rice","Onions","Tomatoes","Spices"], instructions:"Cook rajma curry and serve hot with rice." },
+            { name: "Chole Bhature", category: "North Indian", isPopular: true, ingredients:["Chickpeas","Flour","Onion","Spices"], instructions:"Cook spicy chole and serve with fried bhature." },
+            { name: "Butter Chicken", category: "North Indian", isPopular: true, ingredients:["Chicken","Butter","Tomatoes","Cream","Spices"], instructions:"Cook chicken in tomato butter gravy and finish with cream." },
+
+            // South Indian
+            { name: "Masala Dosa", category: "South Indian", isPopular: true, ingredients:["Dosa batter","Potato","Onion","Spices"], instructions:"Prepare dosa and fill with spiced potato masala." },
+            { name: "Idli Sambar", category: "South Indian", isPopular: true, ingredients:["Rice","Urad dal","Tamarind","Vegetables","Spices"], instructions:"Steam idlis and serve with sambar." },
+            { name: "Medu Vada", category: "South Indian", isPopular: false, ingredients:["Urad dal","Onion","Green chili","Spices"], instructions:"Grind dal, shape into vadas, and deep fry." },
+            { name: "Pongal", category: "South Indian", isPopular: false, ingredients:["Rice","Moong dal","Pepper","Ghee","Cashews"], instructions:"Cook rice and dal with spices, garnish with ghee and cashews." },
+            { name: "Chettinad Chicken Curry", category: "South Indian", isPopular: true, ingredients:["Chicken","Onions","Coconut","Chettinad spices"], instructions:"Cook chicken with roasted coconut masala and spices." },
+
+            // Street Food
+            { name: "Pani Puri", category: "Street Food", isPopular: true, ingredients:["Puris","Potato","Tamarind water","Spices"], instructions:"Fill puris with spicy potato mix and tangy water." },
+            { name: "Pav Bhaji", category: "Street Food", isPopular: true, ingredients:["Mixed vegetables","Potato","Butter","Pav buns","Spices"], instructions:"Cook mashed veggies with butter masala and serve with pav." },
+            { name: "Vada Pav", category: "Street Food", isPopular: true, ingredients:["Potato","Bread","Chili","Spices"], instructions:"Fry potato vada and serve inside pav with chutney." },
+            { name: "Bhel Puri", category: "Street Food", isPopular: false, ingredients:["Puffed rice","Onion","Tomato","Chutneys","Sev"], instructions:"Mix puffed rice with chutneys and garnish with sev." },
+            { name: "Chole Kulche", category: "Street Food", isPopular: true, ingredients:["Chickpeas","Kulcha bread","Onion","Spices"], instructions:"Serve spicy chole with soft kulchas." },
+
+            // Desserts
+            { name: "Gulab Jamun", category: "Desserts", isPopular: true, ingredients:["Khoya","Sugar","Cardamom","Oil"], instructions:"Fry khoya balls and soak in sugar syrup." },
+            { name: "Rasgulla", category: "Desserts", isPopular: true, ingredients:["Chhena","Sugar","Water"], instructions:"Boil chhena balls in sugar syrup until spongy." },
+            { name: "Kheer", category: "Desserts", isPopular: true, ingredients:["Rice","Milk","Sugar","Cardamom","Nuts"], instructions:"Cook rice in milk with sugar and garnish with nuts." },
+            { name: "Jalebi", category: "Desserts", isPopular: false, ingredients:["Flour","Sugar","Saffron","Oil"], instructions:"Fry spiral batter and soak in sugar syrup." },
+            { name: "Rasmalai", category: "Desserts", isPopular: true, ingredients:["Chhena","Milk","Sugar","Cardamom","Saffron"], instructions:"Soak soft chhena patties in sweetened saffron milk." }
+        ];
+
+        const recipesContainer = document.getElementById('recipes-container');
+        const searchBar = document.getElementById('search-bar');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const detailsSection = document.getElementById('recipe-details');
+        const backBtn = document.getElementById('back-btn');
+
+        const getCategoryStyle = (category) => {
+            if (category === "Vegetarian") return "bg-green-500";
+            if (category === "Non-Vegetarian") return "bg-red-500";
+            if (category === "Indian") return "bg-orange-500";
+            if (category === "South Indian") return "bg-yellow-600";
+            if (category === "North Indian") return "bg-purple-600";
+            if (category === "Street Food") return "bg-pink-500";
+            if (category === "Desserts") return "bg-blue-500";
+            return "bg-gray-500";
+        };
+
+        const renderRecipes = (filtered = recipes) => {
+            recipesContainer.innerHTML = '';
+            filtered.forEach((recipe, index) => {
+                const card = document.createElement('div');
+                card.className = `${getCategoryStyle(recipe.category)} text-white rounded-lg shadow-md recipe-card flex flex-col text-left p-4`;
+                card.innerHTML = `
+                    <h3 class="font-['Bangers'] text-xl mb-2">${recipe.name}</h3>
+                    <h4 class="font-semibold mb-1">Ingredients:</h4>
+                    <ul class="text-sm mb-2">${recipe.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+                    <h4 class="font-semibold mb-1">Instructions:</h4>
+                    <p class="text-sm mb-4">${recipe.instructions}</p>
+                    <button class="view-btn bg-white text-gray-800 px-3 py-1 rounded-lg font-medium hover:bg-gray-200" data-id="${index}">View</button>
+                `;
+                recipesContainer.appendChild(card);
+            });
+
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(e.target.dataset.id);
+                    const recipe = recipes[id];
+                    showDetails(recipe);
+                });
+            });
+        };
+
+        const showDetails = (recipe) => {
+            document.getElementById('main-content').classList.add('hidden');
+            detailsSection.classList.remove('hidden');
+            document.getElementById('details-title').textContent = recipe.name;
+            document.getElementById('details-ingredients').innerHTML = recipe.ingredients.map(i => `<li>${i}</li>`).join('');
+            document.getElementById('details-instructions').textContent = recipe.instructions;
+        };
+
+        backBtn.addEventListener('click', () => {
+            detailsSection.classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+        });
+
+        const filterAndSearch = () => {
+            const searchTerm = searchBar.value.toLowerCase();
+            const activeCategory = document.querySelector('.filter-btn[data-active="true"]').dataset.category;
+            let filtered = recipes;
+            if (activeCategory === 'Popular') filtered = filtered.filter(r => r.isPopular);
+            else if (activeCategory !== 'All') filtered = filtered.filter(r => r.category === activeCategory);
+            filtered = filtered.filter(r => r.name.toLowerCase().includes(searchTerm));
+            renderRecipes(filtered);
+        };
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').classList.add('hidden');
+                renderRecipes();
+            }, 2500);
+        });
+
+        searchBar.addEventListener('input', filterAndSearch);
+        filterButtons.forEach(button => button.addEventListener('click', (e) => {
+            filterButtons.forEach(btn => btn.dataset.active = "false");
+            e.target.dataset.active = "true";
+            filterAndSearch();
+        }));
+    </script>
+</body
